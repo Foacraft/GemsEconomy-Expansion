@@ -69,21 +69,25 @@ public class GemsEcoExpansion extends PlaceholderExpansion {
         Currency dc = this.economy.getCurrencyManager().getDefaultCurrency();
         s = s.toLowerCase();
 
-        if(s.equalsIgnoreCase("balance_default")){
+        if (s.equalsIgnoreCase("balance_default")) {
             String amount = "";
-            return amount + Math.round(a.getBalance(dc));
-        }else if(s.equalsIgnoreCase("balance_default_formatted")){
+            return amount + ((int) Math.floor(a.getBalance(dc)));
+        } else if (s.equalsIgnoreCase("balance_default_formatted")){
             return dc.format(a.getBalance(dc));
-        }
-
-        else if(s.startsWith("balance_") || !s.startsWith("balance_default")) {
+        } else if (s.startsWith("balance_") || !s.startsWith("balance_default")) {
             String[] currencyArray = s.split("_");
             Currency c = this.economy.getCurrencyManager().getCurrency(currencyArray[1]);
             if (s.equalsIgnoreCase("balance_" + currencyArray[1] + "_formatted")) {
                 return c.format(a.getBalance(c));
-            } else {
+            } else if (s.equalsIgnoreCase("balance_" + currencyArray[1] + "_round")) {
                 String amount = "";
                 return amount + Math.round(a.getBalance(c));
+            } else if (s.equalsIgnoreCase("balance_" + currencyArray[1] + "_full")) {
+                String amount = "";
+                return amount + a.getBalance(c);
+            } else {
+                String amount = "";
+                return amount + ((int) Math.floor(a.getBalance(c)));
             }
         }
 
